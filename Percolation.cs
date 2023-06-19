@@ -139,7 +139,8 @@ namespace percolation
         // returns the number of open sites
         public int NumberOfOpenSites()
         {
-
+            Console.WriteLine($"The number of open sites is {openSites}");
+            return openSites;
         }
 
         // does the system percolate?
