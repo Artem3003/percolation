@@ -6,7 +6,6 @@ namespace percolation
     {
         static void Main(string[] args)
         {
-            
         }
     }
 }

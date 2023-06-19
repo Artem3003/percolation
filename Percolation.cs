@@ -136,6 +136,11 @@ namespace percolation
             return openedArr[Index(row, col)];
         }
 
+        private bool IsFullIndex(int index)
+        {
+            return Root(topSite) == Root(index);
+        }
+
         // returns the number of open sites
         public int NumberOfOpenSites()
         {
@@ -156,7 +161,31 @@ namespace percolation
         // The method should display different types of sites (open, blocked, full)
         public void Print()
         {
+            Console.WriteLine("Percolation:");
+            for (int i = 1; i <= openedArr.Length - 2; i++)
+            {
+                if (openedArr[i] && IsFullIndex(i))
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.Write("■ ");
+                } else if (openedArr[i])
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write("□ ");
+                }
+                else 
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("□ ");
+                }
 
+                if (i % size == 0)
+                {
+                    Console.WriteLine();
+                }
+            } 
+            Console.ResetColor();
+            Console.WriteLine();
         }
 
         // weigheted-quick-Union algorithm
