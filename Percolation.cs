@@ -114,16 +114,26 @@ namespace percolation
             return index;
         }
 
+        private bool IsOutOfRange(int row, int col)
+        {
+            if (row > size || row <= 0 || col > size || col <= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         // is the site (row, col) open?
         public bool IsOpen(int row, int col)
         {
-
+            Console.WriteLine($"This is open site ({row}, {col}): {openedArr[Index(row, col)]}");
+            return openedArr[Index(row, col)];
         }
 
         // is the site (row, col) full?
         public bool IsFull(int row, int col)
         {
-
+            return openedArr[Index(row, col)];
         }
 
         // returns the number of open sites
