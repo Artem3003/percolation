@@ -57,7 +57,61 @@ namespace percolation
         // opens the site (row, col) if it is not open already
         public void Open(int row, int col)
         {
+            int rowIndex = row - 1;
+            int colIndex = col - 1;
+            int index = rowIndex * size + colIndex + 1;
+            if (!IsOutOfRange(row, col))
+            {
+                openedArr[index] = true;
+                openSites++;
 
+                // top row
+                if (row == 1)
+                {
+                   Union(percolationArr[index], percolationArr[0]);
+                }
+                //bottom row
+                if (row == size)
+                {
+                    Union(percolationArr[index], percolationArr[size * size + 1]);
+                }
+                // up
+                if (row > 1 && IsOpenIndex(row - 1, col))
+                {
+                    Union(percolationArr[index], percolationArr[(rowIndex - 1) * size + colIndex + 1]);
+                }
+                // down
+                if (row < size && IsOpenIndex(row + 1, col))
+                {
+                    Union(percolationArr[index], percolationArr[(rowIndex + 1) * size + colIndex + 1]);
+                }
+                // right
+                if (col < size && IsOpenIndex(row, col + 1))
+                {
+                    Union(percolationArr[index], percolationArr[rowIndex * size + (colIndex + 1) + 1]);
+                }
+                // left
+                if (col > 1 && IsOpenIndex(row, col - 1))
+                {
+                    Union(percolationArr[index], percolationArr[rowIndex * size + (colIndex - 1) + 1]);
+                }
+            } else 
+            {
+                Console.WriteLine($"I couldn't find site ({row}, {col})");
+            }
+        }
+
+        private bool IsOpenIndex(int row, int col)
+        {
+            return openedArr[Index(row, col)];
+        }
+
+        private int Index(int row, int col)
+        {
+            row--;
+            col--;
+            int index = row * size + col + 1;
+            return index;
         }
 
         // is the site (row, col) open?
@@ -91,11 +145,11 @@ namespace percolation
 
         }
 
-        // weigheted-quick-union algorithm
-        private void union(int x, int y)
+        // weigheted-quick-Union algorithm
+        private void Union(int x, int y)
         {
-            byte rootX = root(x);
-            byte rootY = root(y);
+            byte rootX = Root(x);
+            byte rootY = Root(y);
             if (rootX == rootY)
             {
                 return;
@@ -111,7 +165,7 @@ namespace percolation
                 sizeArr[rootY] += sizeArr[x];
             }
         }
-        private byte root(int x)
+        private byte Root(int x)
         {
             byte res = percolationArr[x];
 
