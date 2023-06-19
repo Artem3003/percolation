@@ -4,6 +4,11 @@ namespace percolation
 {
     class Percolation
     {
+
+        private byte[] percolationArr = new byte[0];
+        private bool[] openedArr = new bool[0]; // true/false array
+        private byte[] sizeArr = new byte[0];
+
         // creates n-by-n grid, with all sites initially blocked
         public void Init(int n)
         {
@@ -45,6 +50,38 @@ namespace percolation
         public void Print()
         {
 
+        }
+
+        // weigheted-quick-union algorithm
+        private void union(int x, int y)
+        {
+            byte rootX = root(x);
+            byte rootY = root(y);
+            if (rootX == rootY)
+            {
+                return;
+            }
+            
+            if (sizeArr[x] > sizeArr[y])
+            {
+                percolationArr[rootY] = rootX;
+                sizeArr[rootX] += sizeArr[y];
+            } else
+            {
+                percolationArr[rootX] = rootY;
+                sizeArr[rootY] += sizeArr[x];
+            }
+        }
+        private byte root(int x)
+        {
+            byte res = percolationArr[x];
+
+            while (res != percolationArr[res])
+            {
+                percolationArr[res] = percolationArr[percolationArr[res]]; // path compression (flat tree)
+                res = percolationArr[res];
+            }
+            return res;
         }
     }
 }
