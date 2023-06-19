@@ -146,7 +146,10 @@ namespace percolation
         // does the system percolate?
         public bool Percolates()
         {
-
+            byte rootX = Root(topSite);
+            byte rootY = Root(percolationArr[size * size + 1]);
+            Console.WriteLine($"It is perculates: {rootX == rootY}");
+            return rootX == rootY;
         }
 
         // prints the matrix on the screen
